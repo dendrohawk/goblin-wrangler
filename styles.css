@@ -36,8 +36,8 @@ h2 { margin-bottom: 0; font-size: 24px; letter-spacing: -.03em; }
 .save-status { color: var(--muted); font: 500 12px "DM Mono", monospace; }
 .button { border: 0; border-radius: 10px; padding: 12px 17px; font-weight: 800; transition: transform .2s, box-shadow .2s; }
 .button:hover { transform: translateY(-2px); }
-.button-primary { color: white; background: var(--purple); box-shadow: 0 6px 0 var(--purple-dark); }
-.button-dark { width: 100%; color: white; background: var(--ink); box-shadow: 0 5px 0 #11101d; }
+.button-primary { color: #f4f0d8; background: #527d48; box-shadow: 0 6px 0 #2b4f31; }
+.button-dark { width: 100%; color: #f4f0d8; background: #0d2117; box-shadow: 0 5px 0 #07130d; }
 .button-dark span { float: right; font-size: 19px; line-height: 15px; }
 .button-outline { color: var(--purple); background: transparent; border: 1px solid #d2ccef; font-size: 12px; }
 .intro-card { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 31px 38px; margin-bottom: 30px; border: 1px solid #41664b; border-radius: 20px; background: var(--lavender); box-shadow: var(--shadow); }
