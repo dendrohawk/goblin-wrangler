@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Goblin Wrangler is a playful Kanban task board." />
+    <title>Goblin Wrangler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">🧌</div>
+          <div>
+            <p class="eyebrow">Goblin adventurer's guild</p>
+            <h1>Goblin Wrangler</h1>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <span class="save-status" id="saveStatus">Saved locally</span>
+          <button class="button button-primary" id="focusAddTask" type="button">+ Wrangle a task</button>
+        </div>
+      </header>
+
+      <section class="intro-card" aria-labelledby="introTitle">
+        <div>
+          <p class="eyebrow">Today's quest</p>
+          <h2 id="introTitle">Turn tiny chaos into tidy quests.</h2>
+          <p class="intro-copy">Move quests between camps and keep your adventuring party on track.</p>
+        </div>
+        <div class="mission-stats" aria-label="Board progress">
+          <strong id="progressText">0% wrangled</strong>
+          <div class="progress-track"><span id="progressBar"></span></div>
+          <small id="taskCount">0 active quests</small>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="sidebar">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">New quest</p>
+              <h2>Post a quest</h2>
+            </div>
+            <span class="sparkle" aria-hidden="true">✦</span>
+          </div>
+          <form id="taskForm">
+            <label for="taskTitle">What needs doing?</label>
+            <input id="taskTitle" name="title" placeholder="e.g. Book dentist appointment" required maxlength="80" />
+
+            <label for="taskPriority">How feisty is it?</label>
+            <select id="taskPriority" name="priority">
+              <option value="high">High priority</option>
+              <option value="medium" selected>Medium priority</option>
+              <option value="low">Low priority</option>
+            </select>
+
+            <label for="taskDue">When is it due?</label>
+            <input id="taskDue" name="dueDate" type="date" />
+
+            <button class="button button-dark" type="submit">Add to the camp <span>→</span></button>
+          </form>
+          <div class="tip">
+            <span aria-hidden="true">💡</span>
+            <p><strong>Guild wisdom</strong><br />A small quest today beats a giant quest someday.</p>
+          </div>
+        </aside>
+
+        <section class="board-area" aria-labelledby="boardTitle">
+          <div class="board-toolbar">
+            <div>
+              <p class="eyebrow">The guild camps</p>
+              <h2 id="boardTitle">Your quest board</h2>
+            </div>
+            <button class="button button-outline" id="clearDone" type="button">Release completed</button>
+          </div>
+          <div class="board" id="board">
+            <section class="camp camp-todo" data-status="todo" aria-labelledby="todoTitle">
+              <div class="camp-heading">
+                <h3 id="todoTitle"><span class="camp-dot"></span>To do</h3>
+                <span class="count-badge" data-count="todo">0</span>
+              </div>
+              <div class="task-list" data-list="todo"></div>
+              <p class="empty-state">No unruly goblins here.<br />Enjoy the peace.</p>
+            </section>
+            <section class="camp camp-doing" data-status="doing" aria-labelledby="doingTitle">
+              <div class="camp-heading">
+                <h3 id="doingTitle"><span class="camp-dot"></span>Doing</h3>
+                <span class="count-badge" data-count="doing">0</span>
+              </div>
+              <div class="task-list" data-list="doing"></div>
+              <p class="empty-state">Move a quest here<br />when you start it.</p>
+            </section>
+            <section class="camp camp-done" data-status="done" aria-labelledby="doneTitle">
+              <div class="camp-heading">
+                <h3 id="doneTitle"><span class="camp-dot"></span>Done</h3>
+                <span class="count-badge" data-count="done">0</span>
+              </div>
+              <div class="task-list" data-list="done"></div>
+              <p class="empty-state">No victories yet.<br />Your moment is coming.</p>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+    <template id="taskTemplate">
+      <article class="task-card" draggable="true">
+        <div class="task-topline">
+          <span class="priority-pill"></span>
+          <button class="delete-task" type="button" aria-label="Delete task">×</button>
+        </div>
+        <h4 class="task-title"></h4>
+        <p class="task-due"></p>
+        <div class="task-footer">
+          <button class="move-task" type="button"></button>
+          <span class="drag-label">drag me</span>
+        </div>
+      </article>
+    </template>
+    <script src="app.js"></script>
+  </body>
+</html>
