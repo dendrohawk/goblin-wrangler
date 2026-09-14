@@ -16,77 +16,43 @@
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">🧌</div>
           <div>
-            <p class="eyebrow">Goblin adventurer's guild</p>
+            <p class="eyebrow">Your content command center</p>
             <h1>Goblin Wrangler</h1>
           </div>
         </div>
         <div class="hero-actions">
           <span class="save-status" id="saveStatus">Saved locally</span>
+          <nav class="main-nav" aria-label="Main navigation">
+            <button class="nav-link is-active" id="boardView" type="button" aria-pressed="true">Board</button>
+            <button class="nav-link" id="calendarView" type="button" aria-pressed="false">Calendar</button>
+            <button class="nav-link" id="completedView" type="button" aria-pressed="false">Completed</button>
+            <button class="nav-link" id="adminView" type="button" aria-pressed="false">Admin</button>
+          </nav>
           <button class="button button-primary" id="focusAddTask" type="button">+ Wrangle a task</button>
         </div>
       </header>
 
       <section class="intro-card" aria-labelledby="introTitle">
-        <div>
-          <p class="eyebrow">Today's quest</p>
-          <h2 id="introTitle">Turn tiny chaos into tidy quests.</h2>
-          <p class="intro-copy">Move quests between camps and keep your adventuring party on track.</p>
+        <div class="goblin-tip" aria-live="polite">
+          <span class="goblin-tip-mark" id="goblinIllustration" aria-hidden="true"></span>
+          <div>
+            <p class="eyebrow">Goblin wisdom</p>
+            <p id="goblinAdvice"></p>
+          </div>
         </div>
         <div class="mission-stats" aria-label="Board progress">
-          <strong id="progressText">0% wrangled</strong>
+          <strong id="progressText">0 wrangled this month</strong>
           <div class="progress-track"><span id="progressBar"></span></div>
-          <small id="taskCount">0 active quests</small>
+          <small id="taskCount">0 active quests · 0 victories to date</small>
         </div>
       </section>
 
       <section class="workspace">
-        <aside class="sidebar">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">New quest</p>
-              <h2>Post a quest</h2>
-            </div>
-            <span class="sparkle" aria-hidden="true">✦</span>
-          </div>
-          <form id="taskForm">
-            <label for="taskTitle">What needs doing?</label>
-            <input id="taskTitle" name="title" placeholder="e.g. Book dentist appointment" required maxlength="80" />
-
-            <label for="taskPriority">How feisty is it?</label>
-            <select id="taskPriority" name="priority">
-              <option value="high">High priority</option>
-              <option value="medium" selected>Medium priority</option>
-              <option value="low">Low priority</option>
-            </select>
-
-            <label for="taskDue">When is it due?</label>
-            <input id="taskDue" name="dueDate" type="date" />
-
-            <label for="taskAssignee">Who is wrangling it?</label>
-            <select id="taskAssignee" name="assignee">
-              <option value="">Anyone in the guild</option>
-              <option value="Jen">Jen</option>
-              <option value="Marsh">Marsh</option>
-            </select>
-
-            <button class="button button-dark" type="submit">Add to the camp <span>→</span></button>
-          </form>
-          <div class="tip">
-            <span aria-hidden="true">💡</span>
-            <p><strong>Guild wisdom</strong><br />A small quest today beats a giant quest someday.</p>
-          </div>
-        </aside>
-
         <section class="board-area" aria-labelledby="boardTitle">
           <div class="board-toolbar">
             <div>
               <p class="eyebrow">The guild camps</p>
               <h2 id="boardTitle">Your quest board</h2>
-            </div>
-            <div class="view-actions">
-              <button class="button button-outline view-button is-active" id="boardView" type="button" aria-pressed="true">Camps</button>
-              <button class="button button-outline view-button" id="calendarView" type="button" aria-pressed="false">Calendar</button>
-              <button class="button button-outline view-button" id="completedView" type="button" aria-pressed="false">Completed</button>
             </div>
           </div>
           <div class="board" id="board">
@@ -139,8 +105,61 @@
             <div class="task-list" id="completedList"></div>
             <p class="empty-state">No victories yet.<br />Your moment is coming.</p>
           </section>
+          <section class="admin-panel" id="adminPanel" aria-labelledby="adminTitle" hidden>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Administration</p>
+                <h3 id="adminTitle">Content types</h3>
+                <p class="admin-copy">Manage the categories available to your content team.</p>
+              </div>
+            </div>
+            <div id="categoryList"></div>
+            <form id="categoryForm" class="category-form">
+              <label for="categoryName">Add a category</label>
+              <div class="category-form-row">
+                <input id="categoryName" name="name" placeholder="e.g. Newsletter" maxlength="30" required />
+                <input id="categoryColor" name="color" type="color" value="#8ebf78" title="Category color" />
+              </div>
+              <button class="button button-outline" type="submit">Add category</button>
+            </form>
+          </section>
         </section>
       </section>
+
+      <dialog class="quest-dialog" id="newQuestDialog" aria-labelledby="newQuestTitle">
+        <form id="taskForm" method="dialog">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">New quest</p>
+              <h2 id="newQuestTitle">Post a quest</h2>
+            </div>
+            <button class="delete-task" id="closeQuestDialog" type="button" aria-label="Close new quest dialog">×</button>
+          </div>
+          <label for="taskTitle">What needs doing?</label>
+          <input id="taskTitle" name="title" placeholder="e.g. Book dentist appointment" required maxlength="80" />
+          <label for="taskPriority">How feisty is it?</label>
+          <select id="taskPriority" name="priority">
+            <option value="high">High priority</option>
+            <option value="medium" selected>Medium priority</option>
+            <option value="low">Low priority</option>
+          </select>
+          <label for="taskDue">When is it due?</label>
+          <input id="taskDue" name="dueDate" type="date" />
+          <label for="taskAssignee">Who is wrangling it?</label>
+          <select id="taskAssignee" name="assignee">
+            <option value="">Anyone in the guild</option>
+            <option value="Jen">Jen</option>
+            <option value="Marsh">Marsh</option>
+          </select>
+          <label for="taskCategory">What kind of content is it?</label>
+          <select id="taskCategory" name="category"></select>
+          <div class="tip">
+            <span aria-hidden="true">💡</span>
+            <p><strong>Guild wisdom</strong><br />A small quest today beats a giant quest someday.</p>
+          </div>
+          <button class="button button-dark" type="submit">Add to the camp <span>→</span></button>
+        </form>
+      </dialog>
     </main>
     <dialog class="edit-dialog" id="editDialog" aria-labelledby="editDialogTitle">
       <form id="editTaskForm" method="dialog">
@@ -167,6 +186,8 @@
           <option value="Jen">Jen</option>
           <option value="Marsh">Marsh</option>
         </select>
+        <label for="editTaskCategory">What kind of content is it?</label>
+        <select id="editTaskCategory" name="category"></select>
         <label for="editTaskStatus">Where is it?</label>
         <select id="editTaskStatus" name="status">
           <option value="todo">To do</option>
@@ -188,6 +209,7 @@
         <h4 class="task-title"></h4>
         <p class="task-due"></p>
         <p class="task-assignee"></p>
+        <p class="task-category"></p>
         <div class="task-footer">
           <button class="move-task" type="button"></button>
           <span class="drag-label">drag me</span>
