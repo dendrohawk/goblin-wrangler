@@ -62,6 +62,13 @@
             <label for="taskDue">When is it due?</label>
             <input id="taskDue" name="dueDate" type="date" />
 
+            <label for="taskAssignee">Who is wrangling it?</label>
+            <select id="taskAssignee" name="assignee">
+              <option value="">Anyone in the guild</option>
+              <option value="Jen">Jen</option>
+              <option value="Marsh">Marsh</option>
+            </select>
+
             <button class="button button-dark" type="submit">Add to the camp <span>→</span></button>
           </form>
           <div class="tip">
@@ -76,7 +83,11 @@
               <p class="eyebrow">The guild camps</p>
               <h2 id="boardTitle">Your quest board</h2>
             </div>
-            <button class="button button-outline" id="clearDone" type="button">Release completed</button>
+            <div class="view-actions">
+              <button class="button button-outline view-button is-active" id="boardView" type="button" aria-pressed="true">Camps</button>
+              <button class="button button-outline view-button" id="calendarView" type="button" aria-pressed="false">Calendar</button>
+              <button class="button button-outline view-button" id="completedView" type="button" aria-pressed="false">Completed</button>
+            </div>
           </div>
           <div class="board" id="board">
             <section class="camp camp-todo" data-status="todo" aria-labelledby="todoTitle">
@@ -104,9 +115,70 @@
               <p class="empty-state">No victories yet.<br />Your moment is coming.</p>
             </section>
           </div>
+          <section class="calendar-panel" id="calendarPanel" aria-labelledby="calendarTitle" hidden>
+            <div class="calendar-header">
+              <button class="button button-outline" id="previousMonth" type="button" aria-label="Previous month">←</button>
+              <h3 id="calendarTitle"></h3>
+              <button class="button button-outline" id="nextMonth" type="button" aria-label="Next month">→</button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="undated-quests" id="undatedQuests"></div>
+            <p class="calendar-hint">Drag an unscheduled quest onto a date to give it a deadline.</p>
+          </section>
+          <section class="completed-panel" id="completedPanel" aria-labelledby="completedTitle" hidden>
+            <div class="completed-heading">
+              <div>
+                <p class="eyebrow">Guild victories</p>
+                <h3 id="completedTitle">Completed quests</h3>
+              </div>
+              <span class="count-badge" id="completedCount">0</span>
+            </div>
+            <div class="task-list" id="completedList"></div>
+            <p class="empty-state">No victories yet.<br />Your moment is coming.</p>
+          </section>
         </section>
       </section>
     </main>
+    <dialog class="edit-dialog" id="editDialog" aria-labelledby="editDialogTitle">
+      <form id="editTaskForm" method="dialog">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Quest details</p>
+            <h2 id="editDialogTitle">Edit quest</h2>
+          </div>
+          <button class="delete-task" id="closeEditDialog" type="button" aria-label="Close edit dialog">×</button>
+        </div>
+        <label for="editTaskTitle">What needs doing?</label>
+        <input id="editTaskTitle" name="title" required maxlength="80" />
+        <label for="editTaskPriority">How feisty is it?</label>
+        <select id="editTaskPriority" name="priority">
+          <option value="high">High priority</option>
+          <option value="medium">Medium priority</option>
+          <option value="low">Low priority</option>
+        </select>
+        <label for="editTaskDue">When is it due?</label>
+        <input id="editTaskDue" name="dueDate" type="date" />
+        <label for="editTaskAssignee">Who is wrangling it?</label>
+        <select id="editTaskAssignee" name="assignee">
+          <option value="">Anyone in the guild</option>
+          <option value="Jen">Jen</option>
+          <option value="Marsh">Marsh</option>
+        </select>
+        <label for="editTaskStatus">Where is it?</label>
+        <select id="editTaskStatus" name="status">
+          <option value="todo">To do</option>
+          <option value="doing">Doing</option>
+          <option value="done">Done</option>
+        </select>
+        <div class="edit-dialog-actions">
+          <button class="button button-outline" id="cancelEdit" type="button">Cancel</button>
+          <button class="button button-dark" type="submit">Save quest</button>
+        </div>
+      </form>
+    </dialog>
     <template id="taskTemplate">
       <article class="task-card" draggable="true">
         <div class="task-topline">
@@ -115,6 +187,7 @@
         </div>
         <h4 class="task-title"></h4>
         <p class="task-due"></p>
+        <p class="task-assignee"></p>
         <div class="task-footer">
           <button class="move-task" type="button"></button>
           <span class="drag-label">drag me</span>
